@@ -3,7 +3,7 @@ VM: Little Actor Machine
 ![Main workflow](https://github.com/synrc/vm/workflows/Main%20workflow/badge.svg)
 
 Little Actor Machine (LAM) is a lightweight BEAM-compatible SMP-aware
-virtual machine implemented in Rust by by Leandro Ostera.
+virtual machine implemented in Rust by Leandro Ostera.
 
 Features
 --------
