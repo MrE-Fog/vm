@@ -1,1 +1,0 @@
-# LAM Bytecode Text Format

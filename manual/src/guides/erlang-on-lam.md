@@ -1,1 +1,0 @@
-# Running Erlang on LAM
