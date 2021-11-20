@@ -14,11 +14,8 @@
   {label,2}.
     {test,is_nonempty_list,{f,3},[{x,0}]}.
     {allocate,1,1}.
-    {get_list,{x,0},{x,0},{y,0}}.
-    {line,[{location,"cat.erl",7}]}.
-    {call_ext,1,{extfunc,file,read_file,1}}.
-    {test_heap,2,1}.
-    {put_list,{x,0},nil,{x,1}}.
+    {move,{x,0},{y,0}}.
+    {move,{literal,[1]},{x,1}}.
     {move,{literal,"~p\n"},{x,0}}.
     {line,[{location,"cat.erl",7}]}.
     {call_ext,2,{extfunc,io,format,2}}.

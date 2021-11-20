@@ -3,5 +3,5 @@
 erlc -S *.erl
 erlc *.erl
 
-cargo run -- compile *.beam -o .
-cargo run -- link *.lam -o cat.exe -t native -e cat
+lam compile *.beam -o .
+lam link *.lam -o cat.exe -t native -e cat

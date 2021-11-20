@@ -4,5 +4,5 @@
 
 main([]) -> ok;
 main([File|T]) ->
-  io:format("~p\n", [file:read_file(File)]),
-  main(T).
+  io:format("~p\n", [1]),
+  main([File|T]).
