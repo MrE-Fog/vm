@@ -9,12 +9,22 @@ function getObject(idx) { return heap[idx]; }
 
 let heap_next = heap.length;
 
+function dropObject(idx) {
+    if (idx < 132) return;
+    heap[idx] = heap_next;
+    heap_next = idx;
+}
+
+function takeObject(idx) {
+    const ret = getObject(idx);
+    dropObject(idx);
+    return ret;
+}
+
 function addHeapObject(obj) {
     if (heap_next === heap.length) heap.push(heap.length + 1);
     const idx = heap_next;
     heap_next = heap[idx];
-
-    if (typeof(heap_next) !== 'number') throw new Error('corrupt heap');
 
     heap[idx] = obj;
     return idx;
@@ -36,24 +46,6 @@ function getUint8Memory0() {
 function getStringFromWasm0(ptr, len) {
     ptr = ptr >>> 0;
     return cachedTextDecoder.decode(getUint8Memory0().subarray(ptr, ptr + len));
-}
-
-function _assertBoolean(n) {
-    if (typeof(n) !== 'boolean') {
-        throw new Error('expected a boolean argument');
-    }
-}
-
-function dropObject(idx) {
-    if (idx < 132) return;
-    heap[idx] = heap_next;
-    heap_next = idx;
-}
-
-function takeObject(idx) {
-    const ret = getObject(idx);
-    dropObject(idx);
-    return ret;
 }
 
 function debugString(val) {
@@ -140,8 +132,6 @@ const encodeString = (typeof cachedTextEncoder.encodeInto === 'function'
 
 function passStringToWasm0(arg, malloc, realloc) {
 
-    if (typeof(arg) !== 'string') throw new Error('expected a string argument');
-
     if (realloc === undefined) {
         const buf = cachedTextEncoder.encode(arg);
         const ptr = malloc(buf.length) >>> 0;
@@ -170,7 +160,7 @@ function passStringToWasm0(arg, malloc, realloc) {
         ptr = realloc(ptr, len, len = offset + arg.length * 3) >>> 0;
         const view = getUint8Memory0().subarray(ptr + offset, ptr + len);
         const ret = encodeString(arg, view);
-        if (ret.read !== arg.length) throw new Error('failed to pass whole string');
+
         offset += ret.written;
     }
 
@@ -186,17 +176,11 @@ function getInt32Memory0() {
     }
     return cachedInt32Memory0;
 }
-
-function _assertNum(n) {
-    if (typeof(n) !== 'number') throw new Error('expected a number argument');
-}
 /**
 * @param {number} data
 * @param {number} size
 */
 export function start(data, size) {
-    _assertNum(data);
-    _assertNum(size);
     wasm.start(data, size);
 }
 
@@ -216,26 +200,6 @@ export function step() {
     }
 }
 
-function logError(f, args) {
-    try {
-        return f.apply(this, args);
-    } catch (e) {
-        let error = (function () {
-            try {
-                return e instanceof Error ? `${e.message}\n\nStack:\n${e.stack}` : e.toString();
-            } catch(_) {
-                return "<failed to stringify thrown value>";
-            }
-        }());
-        console.error("wasm-bindgen: imported JS function that was not marked as `catch` threw an error:", error);
-        throw e;
-    }
-}
-
-function isLikeNone(x) {
-    return x === undefined || x === null;
-}
-
 function handleError(f, args) {
     try {
         return f.apply(this, args);
@@ -243,13 +207,13 @@ function handleError(f, args) {
         wasm.__wbindgen_exn_store(addHeapObject(e));
     }
 }
+
+function isLikeNone(x) {
+    return x === undefined || x === null;
+}
 /**
 */
 export class WebSchedulerManager {
-
-    constructor() {
-        throw new Error('cannot invoke `new` directly');
-    }
 
     __destroy_into_raw() {
         const ptr = this.__wbg_ptr;
@@ -306,6 +270,9 @@ imports.__wbindgen_placeholder__.__wbindgen_describe = function() {};
 imports.__wbindgen_placeholder__.__wbindgen_describe_closure = function() {};
 
     
+    imports.__wbindgen_placeholder__.__wbindgen_object_drop_ref = function(arg0) {
+        takeObject(arg0);
+    };
     imports.__wbindgen_placeholder__.__wbindgen_object_clone_ref = function(arg0) {
         const ret = getObject(arg0);
         return addHeapObject(ret);
@@ -314,7 +281,11 @@ imports.__wbindgen_placeholder__.__wbindgen_describe_closure = function() {};
         const ret = getStringFromWasm0(arg0, arg1);
         return addHeapObject(ret);
     };
-    imports.__wbindgen_placeholder__.__wbg_instanceof_Window_c5579e140698a9dc = function() { return logError(function (arg0) {
+    imports.__wbindgen_placeholder__.__wbg_appendChild_1139b53a65d69bed = function() { return handleError(function (arg0, arg1) {
+        const ret = getObject(arg0).appendChild(getObject(arg1));
+        return addHeapObject(ret);
+    }, arguments) };
+    imports.__wbindgen_placeholder__.__wbg_instanceof_Window_c5579e140698a9dc = function(arg0) {
         let result;
         try {
             result = getObject(arg0) instanceof Window;
@@ -322,57 +293,44 @@ imports.__wbindgen_placeholder__.__wbindgen_describe_closure = function() {};
             result = false;
         }
         const ret = result;
-        _assertBoolean(ret);
         return ret;
-    }, arguments) };
-    imports.__wbindgen_placeholder__.__wbg_document_508774c021174a52 = function() { return logError(function (arg0) {
-        const ret = getObject(arg0).document;
-        return isLikeNone(ret) ? 0 : addHeapObject(ret);
-    }, arguments) };
+    };
+    imports.__wbindgen_placeholder__.__wbg_setinnerHTML_76dc2e7ffb1c1936 = function(arg0, arg1, arg2) {
+        getObject(arg0).innerHTML = getStringFromWasm0(arg1, arg2);
+    };
+    imports.__wbindgen_placeholder__.__wbg_debug_e3f6a1578e6d45ca = function(arg0) {
+        console.debug(getObject(arg0));
+    };
+    imports.__wbindgen_placeholder__.__wbg_error_a7e23606158b68b9 = function(arg0) {
+        console.error(getObject(arg0));
+    };
+    imports.__wbindgen_placeholder__.__wbg_info_05db236d79f1b785 = function(arg0) {
+        console.info(getObject(arg0));
+    };
+    imports.__wbindgen_placeholder__.__wbg_log_dc06ec929fc95a20 = function(arg0) {
+        console.log(getObject(arg0));
+    };
+    imports.__wbindgen_placeholder__.__wbg_warn_9bdd743e9f5fe1e0 = function(arg0) {
+        console.warn(getObject(arg0));
+    };
     imports.__wbindgen_placeholder__.__wbg_createElement_d975e66d06bc88da = function() { return handleError(function (arg0, arg1, arg2) {
         const ret = getObject(arg0).createElement(getStringFromWasm0(arg1, arg2));
         return addHeapObject(ret);
     }, arguments) };
-    imports.__wbindgen_placeholder__.__wbg_getElementById_2d1ad15c49298068 = function() { return logError(function (arg0, arg1, arg2) {
+    imports.__wbindgen_placeholder__.__wbg_getElementById_2d1ad15c49298068 = function(arg0, arg1, arg2) {
         const ret = getObject(arg0).getElementById(getStringFromWasm0(arg1, arg2));
         return isLikeNone(ret) ? 0 : addHeapObject(ret);
-    }, arguments) };
-    imports.__wbindgen_placeholder__.__wbg_setinnerHTML_76dc2e7ffb1c1936 = function() { return logError(function (arg0, arg1, arg2) {
-        getObject(arg0).innerHTML = getStringFromWasm0(arg1, arg2);
-    }, arguments) };
-    imports.__wbindgen_placeholder__.__wbg_debug_e3f6a1578e6d45ca = function() { return logError(function (arg0) {
-        console.debug(getObject(arg0));
-    }, arguments) };
-    imports.__wbindgen_placeholder__.__wbg_error_a7e23606158b68b9 = function() { return logError(function (arg0) {
-        console.error(getObject(arg0));
-    }, arguments) };
-    imports.__wbindgen_placeholder__.__wbg_info_05db236d79f1b785 = function() { return logError(function (arg0) {
-        console.info(getObject(arg0));
-    }, arguments) };
-    imports.__wbindgen_placeholder__.__wbg_log_dc06ec929fc95a20 = function() { return logError(function (arg0) {
-        console.log(getObject(arg0));
-    }, arguments) };
-    imports.__wbindgen_placeholder__.__wbg_warn_9bdd743e9f5fe1e0 = function() { return logError(function (arg0) {
-        console.warn(getObject(arg0));
-    }, arguments) };
-    imports.__wbindgen_placeholder__.__wbg_appendChild_1139b53a65d69bed = function() { return handleError(function (arg0, arg1) {
-        const ret = getObject(arg0).appendChild(getObject(arg1));
-        return addHeapObject(ret);
-    }, arguments) };
-    imports.__wbindgen_placeholder__.__wbg_newnoargs_c9e6043b8ad84109 = function() { return logError(function (arg0, arg1) {
+    };
+    imports.__wbindgen_placeholder__.__wbg_document_508774c021174a52 = function(arg0) {
+        const ret = getObject(arg0).document;
+        return isLikeNone(ret) ? 0 : addHeapObject(ret);
+    };
+    imports.__wbindgen_placeholder__.__wbg_newnoargs_c9e6043b8ad84109 = function(arg0, arg1) {
         const ret = new Function(getStringFromWasm0(arg0, arg1));
         return addHeapObject(ret);
-    }, arguments) };
+    };
     imports.__wbindgen_placeholder__.__wbg_call_557a2f2deacc4912 = function() { return handleError(function (arg0, arg1) {
         const ret = getObject(arg0).call(getObject(arg1));
-        return addHeapObject(ret);
-    }, arguments) };
-    imports.__wbindgen_placeholder__.__wbg_now_c857fb0367c762cc = function() { return logError(function () {
-        const ret = Date.now();
-        return ret;
-    }, arguments) };
-    imports.__wbindgen_placeholder__.__wbg_globalThis_b70c095388441f2d = function() { return handleError(function () {
-        const ret = globalThis.globalThis;
         return addHeapObject(ret);
     }, arguments) };
     imports.__wbindgen_placeholder__.__wbg_self_742dd6eab3e9211e = function() { return handleError(function () {
@@ -383,17 +341,21 @@ imports.__wbindgen_placeholder__.__wbindgen_describe_closure = function() {};
         const ret = window.window;
         return addHeapObject(ret);
     }, arguments) };
+    imports.__wbindgen_placeholder__.__wbg_globalThis_b70c095388441f2d = function() { return handleError(function () {
+        const ret = globalThis.globalThis;
+        return addHeapObject(ret);
+    }, arguments) };
     imports.__wbindgen_placeholder__.__wbg_global_1c72617491ed7194 = function() { return handleError(function () {
         const ret = global.global;
         return addHeapObject(ret);
     }, arguments) };
     imports.__wbindgen_placeholder__.__wbindgen_is_undefined = function(arg0) {
         const ret = getObject(arg0) === undefined;
-        _assertBoolean(ret);
         return ret;
     };
-    imports.__wbindgen_placeholder__.__wbindgen_object_drop_ref = function(arg0) {
-        takeObject(arg0);
+    imports.__wbindgen_placeholder__.__wbg_now_c857fb0367c762cc = function() {
+        const ret = Date.now();
+        return ret;
     };
     imports.__wbindgen_placeholder__.__wbindgen_debug_string = function(arg0, arg1) {
         const ret = debugString(getObject(arg1));

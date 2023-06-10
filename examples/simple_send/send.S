@@ -36,7 +36,6 @@
     {func_info,{atom,send},{atom,module_info},0}.
   {label,6}.
     {move,{atom,send},{x,0}}.
-    {line,[]}.
     {call_ext_only,1,{extfunc,erlang,get_module_info,1}}.
 
 
@@ -47,5 +46,4 @@
   {label,8}.
     {move,{x,0},{x,1}}.
     {move,{atom,send},{x,0}}.
-    {line,[]}.
     {call_ext_only,2,{extfunc,erlang,get_module_info,2}}.

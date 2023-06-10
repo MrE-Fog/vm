@@ -2,6 +2,6 @@
 
 -export([main/1]).
 
-main(_) -> io:format(<<"~p">>, [<<"Hello, Joe!">>]).
+main(_) -> io:format("~p~n", ["Hello, Joe!"]).
 
 
