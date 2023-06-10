@@ -24,12 +24,10 @@
     {move,{y,1},{x,1}}.
     {line,[{location,"lists.erl",33}]}.
     {call_fun,1}.
-    {move,{y,0},{x,2}}.
     {swap,{y,1},{x,0}}.
-    {move,{x,2},{x,1}}.
+    {move,{y,0},{x,1}}.
     {trim,1,1}.
-    {line,[{location,"lists.erl",33}]}.
-    {call,2,{f,2}}.
+    {call,2,{f,2}}. % map/2
     {'%',{var_info,{x,0},[{type,{t_list,any,nil}}]}}.
     {test_heap,2,1}.
     {put_list,{y,0},{x,0},{x,0}}.
@@ -56,7 +54,7 @@
     {call_fun,1}.
     {move,{y,0},{x,1}}.
     {move,{y,1},{x,0}}.
-    {call_last,2,{f,5},2}.
+    {call_last,2,{f,5},2}. % foreach/2
   {label,6}.
     {test,is_nil,{f,4},[{x,1}]}.
     {move,{atom,ok},{x,0}}.
@@ -73,12 +71,11 @@
     {move,{x,0},{y,1}}.
     {get_list,{x,2},{x,0},{y,0}}.
     {move,{y,1},{x,2}}.
-    {line,[{location,"lists.erl",55}]}.
     {call_fun,2}.
     {move,{x,0},{x,1}}.
     {move,{y,0},{x,2}}.
     {move,{y,1},{x,0}}.
-    {call_last,3,{f,8},2}.
+    {call_last,3,{f,8},2}. % foldl/3
   {label,9}.
     {test,is_nil,{f,7},[{x,2}]}.
     {test,is_function2,{f,7},[{x,0},{integer,2}]}.
@@ -91,8 +88,8 @@
     {line,[{location,"lists.erl",58}]}.
     {func_info,{atom,lists},{atom,main},1}.
   {label,11}.
-    {allocate,0,1}.
-    {make_fun2,{f,17},0,0,1}.
+    {allocate_heap,0,{alloc,[{words,1},{floats,0},{funs,1}]},1}.
+    {make_fun3,{f,17},0,0,{x,0},{list,[{x,0}]}}.
     {'%',{var_info,{x,0},[{fun_type,number}]}}.
     {move,{literal,[1,2,3]},{x,2}}.
     {move,{integer,0},{x,1}}.
@@ -111,7 +108,6 @@
     {func_info,{atom,lists},{atom,module_info},0}.
   {label,13}.
     {move,{atom,lists},{x,0}}.
-    {line,[]}.
     {call_ext_only,1,{extfunc,erlang,get_module_info,1}}.
 
 
@@ -122,7 +118,6 @@
   {label,15}.
     {move,{x,0},{x,1}}.
     {move,{atom,lists},{x,0}}.
-    {line,[]}.
     {call_ext_only,2,{extfunc,erlang,get_module_info,2}}.
 
 

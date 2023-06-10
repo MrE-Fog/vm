@@ -28,7 +28,6 @@
     {test_heap,2,1}.
     {put_list,{x,0},nil,{x,1}}.
     {move,{literal,<<"~p\n">>},{x,0}}.
-    {line,[{location,"runner.erl",11}]}.
     {call_ext_last,2,{extfunc,io,format,2},0}.
 
 
@@ -37,12 +36,10 @@
     {line,[{location,"runner.erl",14}]}.
     {func_info,{atom,runner},{atom,run_days},1}.
   {label,4}.
-    {allocate,1,1}.
-    {move,{x,0},{y,0}}.
-    {make_fun2,{f,16},0,0,0}.
-    {move,{y,0},{x,1}}.
-    {line,[{location,"runner.erl",14}]}.
-    {call_ext_last,2,{extfunc,lists,foreach,2},1}.
+    {test_heap,{alloc,[{words,0},{floats,0},{funs,1}]},1}.
+    {make_fun3,{f,16},0,0,{x,1},{list,[]}}.
+    {swap,{x,0},{x,1}}.
+    {call_ext_only,2,{extfunc,lists,foreach,2}}.
 
 
 {function, main, 1, 6}.
@@ -50,22 +47,20 @@
     {line,[{location,"runner.erl",19}]}.
     {func_info,{atom,runner},{atom,main},1}.
   {label,6}.
-    {allocate_zero,1,0}.
+    {allocate,0,0}.
     {move,nil,{x,1}}.
     {move,{literal,<<"==# Advent Of Code 2020! #==\n\n">>},{x,0}}.
     {line,[{location,"runner.erl",20}]}.
     {call_ext,2,{extfunc,io,format,2}}.
-    {make_fun2,{f,14},0,0,0}.
-    {move,{x,0},{y,0}}.
-    {make_fun2,{f,12},0,0,0}.
-    {test_heap,10,1}.
-    {put_tuple2,{x,0},{list,[{integer,2},{x,0}]}}.
-    {put_list,{x,0},nil,{x,0}}.
-    {put_tuple2,{x,1},{list,[{integer,1},{y,0}]}}.
-    {put_list,{x,1},{x,0},{x,0}}.
-    {trim,1,0}.
+    {test_heap,{alloc,[{words,10},{floats,0},{funs,2}]},0}.
+    {make_fun3,{f,14},0,0,{x,0},{list,[]}}.
+    {make_fun3,{f,12},0,0,{x,1},{list,[]}}.
+    {put_tuple2,{x,1},{list,[{integer,2},{x,1}]}}.
+    {put_list,{x,1},nil,{x,1}}.
+    {put_tuple2,{x,0},{list,[{integer,1},{x,0}]}}.
+    {put_list,{x,0},{x,1},{x,0}}.
     {line,[{location,"runner.erl",26}]}.
-    {call,1,{f,4}}.
+    {call,1,{f,4}}. % run_days/1
     {move,nil,{x,1}}.
     {move,{literal,<<"\n\n">>},{x,0}}.
     {line,[{location,"runner.erl",27}]}.
@@ -78,7 +73,6 @@
     {func_info,{atom,runner},{atom,module_info},0}.
   {label,8}.
     {move,{atom,runner},{x,0}}.
-    {line,[]}.
     {call_ext_only,1,{extfunc,erlang,get_module_info,1}}.
 
 
@@ -89,23 +83,22 @@
   {label,10}.
     {move,{x,0},{x,1}}.
     {move,{atom,runner},{x,0}}.
-    {line,[]}.
     {call_ext_only,2,{extfunc,erlang,get_module_info,2}}.
 
 
-{function, '-main/1-fun-1-', 0, 12}.
+{function, '-main/1-fun-0-', 0, 12}.
   {label,11}.
     {line,[{location,"runner.erl",23}]}.
-    {func_info,{atom,runner},{atom,'-main/1-fun-1-'},0}.
+    {func_info,{atom,runner},{atom,'-main/1-fun-0-'},0}.
   {label,12}.
     {line,[{location,"runner.erl",24}]}.
     {call_ext_only,0,{extfunc,day_2,run,0}}.
 
 
-{function, '-main/1-fun-0-', 0, 14}.
+{function, '-main/1-fun-1-', 0, 14}.
   {label,13}.
     {line,[{location,"runner.erl",21}]}.
-    {func_info,{atom,runner},{atom,'-main/1-fun-0-'},0}.
+    {func_info,{atom,runner},{atom,'-main/1-fun-1-'},0}.
   {label,14}.
     {line,[{location,"runner.erl",22}]}.
     {call_ext_only,0,{extfunc,day_1,run,0}}.
@@ -116,4 +109,4 @@
     {line,[{location,"runner.erl",14}]}.
     {func_info,{atom,runner},{atom,'-run_days/1-fun-0-'},1}.
   {label,16}.
-    {call_only,1,{f,2}}.
+    {call_only,1,{f,2}}. % run_one/1

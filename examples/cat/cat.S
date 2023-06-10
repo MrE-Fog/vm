@@ -20,7 +20,7 @@
     {line,[{location,"cat.erl",7}]}.
     {call_ext,2,{extfunc,io,format,2}}.
     {move,{y,0},{x,0}}.
-    {call_last,1,{f,2},1}.
+    {call_last,1,{f,2},1}. % main/1
   {label,3}.
     {test,is_nil,{f,1},[{x,0}]}.
     {move,{atom,ok},{x,0}}.
@@ -33,7 +33,6 @@
     {func_info,{atom,cat},{atom,module_info},0}.
   {label,5}.
     {move,{atom,cat},{x,0}}.
-    {line,[]}.
     {call_ext_only,1,{extfunc,erlang,get_module_info,1}}.
 
 
@@ -44,5 +43,4 @@
   {label,7}.
     {move,{x,0},{x,1}}.
     {move,{atom,cat},{x,0}}.
-    {line,[]}.
     {call_ext_only,2,{extfunc,erlang,get_module_info,2}}.
